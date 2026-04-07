@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QLess Taxi | Live Display</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #0a0f1c;
+    }
+    
+    .tv-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .tv-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .tv-header h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #C62828 0%, #ff6b6b 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    
+    .last-updated {
+      color: #94a3b8;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    
+    .tv-routes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .tv-route-card {
+      background: #1e293b;
+      border-radius: 28px;
+      padding: 1.5rem;
+      transition: transform 0.2s;
+    }
+    
+    .tv-route-name {
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      border-left: 5px solid var(--primary);
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .now-loading-box {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1rem 0;
+      animation: pulse-glow 2s infinite;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.4); }
+      50% { box-shadow: 0 0 0 15px rgba(198, 40, 40, 0); }
+    }
+    
+    .now-loading-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.9;
+    }
+    
+    .now-loading-taxi {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-top: 0.5rem;
+    }
+    
+    .queue-count {
+      background: #334155;
+      border-radius: 40px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.7rem;
+      display: inline-block;
+    }
+    
+    .next-list {
+      margin-top: 1rem;
+    }
+    
+    .next-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      border-bottom: 1px solid #334155;
+    }
+    
+    .next-position {
+      font-weight: 800;
+      color: var(--primary);
+      width: 40px;
+    }
+    
+    @media (max-width: 1024px) {
+      .tv-routes-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .tv-header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="tv-container">
+  <div class="tv-header">
+    <h1>🚐 QLess Taxi Rank <span class="live-badge">LIVE</span></h1>
+    <p class="last-updated" id="lastUpdated">Updating in real-time...</p>
+  </div>
+  
+  <div class="tv-routes-grid" id="tvRoutesGrid"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof TaxiSystem !== 'undefined') {
+      TaxiSystem.initDisplay();
+    }
+  });
+</script>
+</body>
+</html>

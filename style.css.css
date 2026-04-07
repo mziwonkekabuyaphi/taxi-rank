@@ -1,0 +1,337 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fef4f2;
+  color: #1e1e2a;
+  overflow-x: hidden;
+}
+
+/* Brand Colors */
+:root {
+  --primary: #C62828;
+  --primary-dark: #8B0000;
+  --primary-light: #ffebee;
+  --secondary: #1e293b;
+  --success: #2e7d32;
+  --warning: #f59e0b;
+  --info: #0284c7;
+  --gray: #64748b;
+  --light-gray: #f1f5f9;
+}
+
+/* Container */
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  min-height: 100vh;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+.brand-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.brand-header h1 {
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+}
+
+.brand-header p {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: 60px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Route Grid */
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.route-btn {
+  background: var(--light-gray);
+  border: 2px solid transparent;
+  padding: 0.875rem;
+  border-radius: 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.route-btn.selected {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Queue List */
+.queue-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.2s;
+}
+
+.queue-item:last-child {
+  border-bottom: none;
+}
+
+.queue-item.now-loading {
+  background: #fef3c7;
+  border-left: 4px solid var(--warning);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { background: #fef3c7; }
+  50% { background: #fde68a; }
+}
+
+.queue-position {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--primary);
+  min-width: 50px;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.status-waiting { background: #e2e8f0; color: #475569; }
+.status-loading { background: #fef3c7; color: #92400e; }
+.status-next { background: #dcfce7; color: #166534; animation: blink 1s infinite; }
+.status-departed { background: #cff4fc; color: #055160; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Forms */
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* TV Display Specific */
+.tv-container {
+  background: #0a0f1c;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.tv-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.tv-header h1 {
+  font-size: 3rem;
+  color: white;
+}
+
+.tv-header .live-badge {
+  display: inline-block;
+  background: #dc2626;
+  padding: 0.25rem 1rem;
+  border-radius: 40px;
+  font-size: 0.8rem;
+  margin-left: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.tv-routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.tv-route-card {
+  background: #1e293b;
+  border-radius: 24px;
+  padding: 1.5rem;
+  color: white;
+}
+
+.tv-route-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  border-bottom: 3px solid var(--primary);
+  display: inline-block;
+}
+
+.tv-now-loading {
+  background: var(--primary);
+  border-radius: 16px;
+  padding: 1rem;
+  margin: 1rem 0;
+  text-align: center;
+  animation: glow 1.5s infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px var(--primary); }
+  50% { box-shadow: 0 0 20px var(--primary); }
+}
+
+.tv-next-list {
+  margin-top: 1rem;
+}
+
+.tv-next-item {
+  padding: 0.5rem;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tv-routes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    padding: 0.75rem;
+  }
+  
+  .brand-header h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 60px;
+  z-index: 1000;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

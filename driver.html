@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>QLess Taxi | Driver Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .status-card {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 32px;
+      margin: 1rem 0;
+    }
+    
+    .position-number {
+      font-size: 4rem;
+      font-weight: 800;
+    }
+    
+    .wait-time {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    
+    .route-display {
+      background: var(--light-gray);
+      padding: 0.75rem;
+      border-radius: 16px;
+      margin: 0.5rem 0;
+    }
+    
+    .alert-sound-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: white;
+      border-radius: 60px;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 0.8rem;
+      z-index: 100;
+    }
+    
+    /* Plate selection styling */
+    .plate-select {
+      width: 100%;
+      padding: 0.875rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+      cursor: pointer;
+    }
+    
+    .plate-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .info-note {
+      background: #e0f2fe;
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: #0369a1;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    
+    .driver-name-input {
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="brand-header">
+    <h1>🚐 QLess Taxi Rank</h1>
+    <p>Driver Portal · Select your taxi</p>
+  </div>
+  
+  <div class="container" id="driverApp">
+    <!-- Registration Section -->
+    <div id="registerSection" class="card">
+      <h2 style="margin-bottom: 1rem;">📝 Select Your Taxi</h2>
+      
+      <div class="input-group">
+        <label>Select Your Taxi Plate *</label>
+        <select id="plateSelect" class="plate-select">
+          <option value="">-- Select your taxi registration --</option>
+        </select>
+        <div class="info-note">
+          ℹ️ Only pre-registered taxis can join the queue. Contact marshal if your taxi is not listed.
+        </div>
+      </div>
+      
+      <div class="input-group driver-name-input">
+        <label>Driver Name (Optional)</label>
+        <input type="text" id="driverName" placeholder="Enter your name for display">
+      </div>
+      
+      <div class="input-group">
+        <label>Select Route *</label>
+        <div class="routes-grid" id="routesGrid"></div>
+      </div>
+      
+      <button class="btn-primary" id="joinQueueBtn">🚐 Join Queue</button>
+    </div>
+    
+    <!-- Queue Status Section (hidden until joined) -->
+    <div id="statusSection" style="display: none;">
+      <div class="status-card" id="statusCard">
+        <div style="font-size: 0.9rem; opacity: 0.9;">YOUR POSITION</div>
+        <div class="position-number" id="queuePosition">--</div>
+        <div class="wait-time" id="waitTime">Calculating...</div>
+      </div>
+      
+      <div class="card">
+        <div class="route-display">
+          <strong>Route:</strong> <span id="routeName">--</span>
+        </div>
+        <div class="route-display">
+          <strong>Taxi:</strong> <span id="taxiPlate">--</span>
+        </div>
+        <div class="route-display">
+          <strong>Driver:</strong> <span id="driverDisplayName">--</span>
+        </div>
+        <div class="route-display">
+          <strong>Status:</strong> 
+          <span id="statusBadge" class="status-badge status-waiting">Waiting</span>
+        </div>
+      </div>
+      
+      <button class="btn-outline" id="leaveQueueBtn" style="width: 100%; margin-top: 1rem;">❌ Leave Queue</button>
+    </div>
+  </div>
+  
+  <div class="alert-sound-toggle">
+    <input type="checkbox" id="soundEnabled" checked> 🔔 Alerts
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof TaxiSystem !== 'undefined') {
+      TaxiSystem.initDriver();
+    }
+  });
+</script>
+</body>
+</html>

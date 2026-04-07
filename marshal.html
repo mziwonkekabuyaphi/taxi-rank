@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QLess Taxi | Marshal Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .marshal-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .route-tabs {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+    }
+    
+    .route-tab {
+      background: var(--light-gray);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    
+    .route-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .queue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .analytics-card {
+      background: var(--light-gray);
+      padding: 1rem;
+      border-radius: 16px;
+      text-align: center;
+    }
+    
+    .analytics-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .plate-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .plate-item:last-child {
+      border-bottom: none;
+    }
+    
+    .status-active {
+      color: #22c55e;
+      font-size: 0.7rem;
+    }
+    
+    .status-inactive {
+      color: #ef4444;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+<div class="marshal-container">
+  <div class="brand-header" style="border-radius: 24px; margin-bottom: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <div>
+        <h1>🧑‍✈️ Marshal Dashboard</h1>
+        <p>Manage taxi queues & registered plates</p>
+      </div>
+      <div class="action-buttons">
+        <button class="btn-secondary" id="managePlatesBtn">🚐 Manage Taxi Plates</button>
+        <button class="btn-secondary" id="editRoutesBtn">✏️ Edit Routes</button>
+        <button class="btn-secondary" id="refreshBtn">🔄 Refresh</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Analytics -->
+  <div class="analytics-grid" id="analyticsGrid"></div>
+  
+  <!-- Route Tabs -->
+  <div class="route-tabs" id="routeTabs"></div>
+  
+  <!-- Queue Display -->
+  <div class="card">
+    <div class="queue-header">
+      <h2 id="activeRouteTitle">Queue</h2>
+      <div class="action-buttons">
+        <button class="btn-primary" id="callNextBtn">📢 Call Next Taxi</button>
+        <button class="btn-outline" id="clearQueueBtn">🗑️ Clear Queue</button>
+      </div>
+    </div>
+    <div id="queueList"></div>
+  </div>
+</div>
+
+<!-- Edit Routes Modal -->
+<div id="editRoutesModal" class="modal">
+  <div class="modal-content">
+    <h2 style="color: var(--primary); margin-bottom: 1rem;">✏️ Edit Routes</h2>
+    <div id="routesList"></div>
+    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+      <input type="text" id="newRouteName" placeholder="New route name" style="flex: 1; padding: 0.5rem; border-radius: 8px; border: 1px solid #ccc;">
+      <button class="btn-primary" id="addRouteBtn">+ Add</button>
+    </div>
+    <button class="btn-secondary" id="closeModalBtn" style="margin-top: 1rem; width: 100%;">Close</button>
+  </div>
+</div>
+
+<!-- Manage Plates Modal -->
+<div id="managePlatesModal" class="modal">
+  <div class="modal-content">
+    <h2 style="color: var(--primary); margin-bottom: 1rem;">🚐 Registered Taxi Plates</h2>
+    <div class="input-group" style="margin-bottom: 1rem;">
+      <label>Add New Plate</label>
+      <div style="display: flex; gap: 0.5rem;">
+        <input type="text" id="newPlateNumber" placeholder="e.g., ABC123 GP" style="flex: 1; padding: 0.5rem; border-radius: 8px; border: 1px solid #ccc;">
+        <button class="btn-primary" id="addPlateBtn">+ Add</button>
+      </div>
+    </div>
+    <div id="platesList" style="max-height: 400px; overflow-y: auto;"></div>
+    <button class="btn-secondary" id="closePlatesModalBtn" style="margin-top: 1rem; width: 100%;">Close</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof TaxiSystem !== 'undefined') {
+      TaxiSystem.initMarshal();
+    }
+  });
+</script>
+</body>
+</html>
